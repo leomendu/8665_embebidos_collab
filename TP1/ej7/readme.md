@@ -30,4 +30,6 @@ El botón asociado a Comenzar/Terminar es ```TEC4```.
 
 El LED RGB se utiliza para señalizar el estado de funcionamiento del horno (rojo en no-cocción, verde en cocción y azul en puerta abierta). Los LEDS LED1, LED2 y LED3 señalizan el modo de cocción seleccionado. 
 
+El programa se probó en la placa EDU-CIAA y se confirmó el funcionamiento deseado.
+
 El código fuente del programa se encuentra en el archivo PONER NOMBRE DEL ARCHIVO
