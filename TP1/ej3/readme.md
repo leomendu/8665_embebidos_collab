@@ -31,6 +31,19 @@ Las operaciones utilizadas son:
   operation SetForma(Number: integer) void
 ``` 
 
-se utiliza para setear la forma de onda, en esta función se operan los LEDS para señalizar
+&ensp;&ensp;&ensp;&ensp; se utiliza para setear la forma de onda, en esta función se operan los LEDS para señalizar.
 
+```c
+  operation SetMag(Number: integer) void
+``` 
+
+&ensp;&ensp;&ensp;&ensp; se utiliza para setear magnitud, en esta función se operan los LEDS para señalizar.
+
+```c
+  operation ChangeMag(Mag: integer, Action: integer) void
+``` 
+
+&ensp;&ensp;&ensp;&ensp; se utiliza para cambiar el valor de la magnitud seleccionada.
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Mag debe ser Tensión (V) o Frecuencia (F)
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Action debe ser incrementar (INC) o decrementar (DEC)
 
