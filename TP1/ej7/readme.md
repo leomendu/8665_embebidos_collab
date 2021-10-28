@@ -33,10 +33,12 @@ El LED RGB se utiliza para señalizar el estado de funcionamiento del horno (roj
 Las funciones utilizadas para la implementación del modelo son:
 
 ```c
-  void opHorno(sc_boolean moodo);
+  void opHorno(sc_integer modoCoccion);
 ```
-
+&ensp;&ensp;&ensp;&ensp; esta función activa el LEDR cuando el horno está apagado, y el LEDG cuando el horno esta funcionamiento
 ```c
-  void opLED(sc_integer LED_NUMBER, sc_boolean modo);
+  void opLED(sc_integer LED_NUMBER, sc_boolean status);
 ```
-El programa se probó en la placa EDU-CIAA y se confirmó el funcionamiento deseado.
+&ensp;&ensp;&ensp;&ensp; esta función prende un LED si ```status=true``` y lo apaga si ```status=false```. Con LED_NUMBER se elige el led a utilizar (LEDX para los modos de cocción y LEDB para puerta abierta).
+
+El programa se probó en el simulador de Yakindu y en placa EDU-CIAA, y se confirmó el funcionamiento deseado.
