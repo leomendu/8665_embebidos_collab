@@ -28,3 +28,19 @@ Las señales que se utilizan para comunicar ambas regiones son:
 ```siNoTitilar``` se levanta cuando se terminó de cerrar/abrir el portón
 ```siEmergencia``` se levanta cuando se interpone un obstáculo en el portón
 
+
+Las funciones utilizadas para operar el portón son:
+```c
+  opMotor(Action: boolean, state: boolean)
+```
+
+
+```c
+  opLED(variable_name: integer)
+```
+
+
+```c
+  opToggle(variable_name: integer)
+```
+
