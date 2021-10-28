@@ -1,0 +1,15 @@
+GeneratorModel for yakindu::c {
+
+	const PROJECT : string = "firmware_v3"
+
+	const FOLDER : string = "TP1/ej7/gen"
+
+	statechart ej7 {
+
+		feature Outlet {
+			targetProject = PROJECT
+			targetFolder = FOLDER
+			libraryTargetFolder = "src"
+		}
+	}
+}
