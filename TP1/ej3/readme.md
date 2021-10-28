@@ -28,19 +28,19 @@ Para señalizar el incremento y decremento en la magniutd, se utiliza el LED2 y 
 Las operaciones utilizadas son:
 
 ```c
-  operation SetForma(Number: integer) void
+  void SetForma(sc_integer Number);
 ``` 
 
 &ensp;&ensp;&ensp;&ensp; se utiliza para setear la forma de onda, en esta función se operan los LEDS para señalizar.
 
 ```c
-  operation SetMag(Number: integer) void
+  void SetMag(sc_integer Number);
 ``` 
 
 &ensp;&ensp;&ensp;&ensp; se utiliza para setear magnitud, en esta función se operan los LEDS para señalizar.
 
 ```c
-  operation ChangeMag(Mag: integer, Action: integer) void
+  void ChangeMag(sc_integer Mag, sc_integar Action);
 ``` 
 
 &ensp;&ensp;&ensp;&ensp; se utiliza para cambiar el valor de la magnitud seleccionada.
