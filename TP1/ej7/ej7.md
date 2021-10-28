@@ -21,3 +21,13 @@ Una vez que se encuentra en el estado de puerta cerrada ```PUERTA CERRADA OFF```
 En la imagen anterior se puede oservar que al presionar el botón correspondiente al tipo de cocción (y validarlo) se actualiza la variable interna ```viModoCoccion```, y se reinicializa al modo default luego de terminar el ciclo. 
 
 Al producirse el evento ```evComenzarTerminar``` se inicia la cocción, la cual puede ser terminar mediante el presionado del botón de Comenzar/Terminar (```evComenzarTerminar```), o mediante la apertura de la puerta (```evPuertaAbierta```).
+
+
+El botón asociado a la selección de cocción es ```TEC1```. 
+El botón asociado a la apertura de puerta es ```TEC2```. 
+El botón asociado al cierre de puerta es ```TEC3```.
+El botón asociado a Comenzar/Terminar es ```TEC4```. 
+
+El LED RGB se utiliza para señalizar el estado de funcionamiento del horno (rojo en no-cocción, verde en cocción y azul en puerta abierta). Los LEDS LED1, LED2 y LED3 señalizan el modo de cocción seleccionado. 
+
+El código fuente del programa se encuentra en el archivo PONER NOMBRE DEL ARCHIVO
