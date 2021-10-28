@@ -25,4 +25,12 @@ Para señalizar la magnitud seleccionada se utiliza el LED1: apagado para tensi�
 
 Para señalizar el incremento y decremento en la magniutd, se utiliza el LED2 y LED3 respectivamente. 
 
+Las operaciones utilizadas son:
+
+```c
+  operation SetForma(Number: integer) void
+``` 
+
+se utiliza para setear la forma de onda, en esta función se operan los LEDS para señalizar
+
 
