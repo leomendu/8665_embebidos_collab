@@ -1,6 +1,6 @@
 # Ejercicio 6: Escalera mecánica
 
-Implementar (editar, simular y generar el código) el modelo de control de Escalera Mecánica unidireccional automatizada (motor c/movimiento en un sentido y dos velocidades, sensores de ingreso, egreso y señalización luminosa).
+> Implementar (editar, simular y generar el código) el modelo de control de Escalera Mecánica unidireccional automatizada (motor c/movimiento en un sentido y dos velocidades, sensores de ingreso, egreso y señalización luminosa).
 
 Se diseñó el modelo de control de una escalera mecánica unidireccional con dos velocidades capaz de avanzar o retroceder según el orden en el que se reciban las señales de los distintos sensores.
 
