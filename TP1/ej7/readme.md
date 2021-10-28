@@ -30,4 +30,13 @@ El botón asociado a Comenzar/Terminar es ```TEC4```.
 
 El LED RGB se utiliza para señalizar el estado de funcionamiento del horno (rojo en no-cocción, verde en cocción y azul en puerta abierta). Los LEDS LED1, LED2 y LED3 señalizan el modo de cocción seleccionado. 
 
+Las funciones utilizadas para la implementación del modelo son:
+
+```c
+  void opHorno(sc_boolean moodo);
+```
+
+```c
+  void opLED(sc_integer LED_NUMBER, sc_boolean modo);
+```
 El programa se probó en la placa EDU-CIAA y se confirmó el funcionamiento deseado.
