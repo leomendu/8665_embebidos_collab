@@ -4,6 +4,6 @@
 
 En este ejercicio se implemento el control de la puerta corrediza automatizada. A continuación se muestra una figura con el diagrama de estados del modelo
 
-![Image](Puerta Corrediza.png)
+![Image](Puerta_Corrediza.png)
 
 El diagrama cuenta con dos regiones: TECX y main region. En la región de main region se realiza el accionamiento de la puerta corrediza propiamente dicho, dicha región cuenta con 4 estados: CERRADO, CERRANDO, ABRIENDO y ABIERTO. En los estados CERRANDO y ABRIENDO se produce el cierre y apertura de la puerta corrediza.
