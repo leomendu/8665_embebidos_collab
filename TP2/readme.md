@@ -115,11 +115,11 @@ typedef enum{
 	UART_232  = 5, // Hardware UART3 via 232_RX and 232_tx pins on header P1
 } uartMap_t;
 ```
-Donde se define la vía por la cual se establecerá la comunicación. En este caso, se elige la opción ``c UART_USB  = 3``, es decir que la comunicación será a través del puerto `USB DEBUG.` También recibe como parámetro el baud rate, que marcará la tasa con que se transmita la información y está tipificado como un entero de 32 bits.
+Donde se define la vía por la cual se establecerá la comunicación. En este caso, se elige la opción `` UART_USB  = 3``, es decir que la comunicación será a través del puerto `USB DEBUG.` También recibe como parámetro el baud rate, que marcará la tasa con que se transmita la información y está tipificado como un entero de 32 bits.
 
-Luego esta función llama a su vez a otra función denominada ``c uartConfig(uart, baudRate) ``, donde se especifican los números de puerto y de pin para transmisión y recepción para cada UART. 
+Luego esta función llama a su vez a otra función denominada `` uartConfig(uart, baudRate) ``, donde se especifican los números de puerto y de pin para transmisión y recepción para cada UART. 
 
-La función `printString` recibe entre sus parámetros un puntero al inicio de una cadena de caracteres y llama a la función ``c uartWriteString( printer, string )``. Se ve que la función recibe la cadena de caracteres y la vía de comunicación e invoca a la función ``c uartWriteByte`` hasta que se termine de escribir la cadena entera. La función ``c uartWriteByte`` está definida en el mismo lugar y lo que hace es recibir de a un byte por vez y escribirlo.
+La función `printString` recibe entre sus parámetros un puntero al inicio de una cadena de caracteres y llama a la función `` uartWriteString( printer, string )``. Se ve que la función recibe la cadena de caracteres y la vía de comunicación e invoca a la función `` uartWriteByte`` hasta que se termine de escribir la cadena entera. La función `` uartWriteByte`` está definida en el mismo lugar y lo que hace es recibir de a un byte por vez y escribirlo.
 
 
 
