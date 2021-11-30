@@ -47,7 +47,7 @@ Este cambio de comportamiento se logro mediante código condicional en el prepro
 
 De esta forma si no se define la constante `GRUPO`, no se cambia el comportamiento de los periféricos definidos por sAPI.
 
-# Ejercicio 3: ticks_tickHook
+# Ejercicio 3/4: ticks_tickHook y constantes para manipular tiempos
 
 En este ejercicio se busca configurar y controlar rutinas de interrupción utilizando el timer por defecto de la placa. En este caso llamado `SysTick`. Para correr este ejercicio es necesario inicializar la variable `ejercicio` de la siguiente forma:
 
@@ -86,7 +86,27 @@ void myTickHook( void *ptr )
    gpioWrite( led, ledState );
 }
 ```
-# Ejercicio 4: uart
+
+Luego, en el programa principal se tienen las siguientes sentencias:
+
+```c
+tickCallbackSet(myTickHook, (void*)LEDG);
+delay(LED_TOGGLE_MS);
+tickCallbackSet(myTickHook, (void*)LEDB);
+delay(LED_TOGGLE_MS);
+tickCallbackSet(myTickHook, (void*)LED1);
+delay(LED_TOGGLE_MS);
+tickCallbackSet(myTickHook, (void*)LED2);
+delay(LED_TOGGLE_MS);
+tickCallbackSet(myTickHook, (void*)LED3);
+delay(LED_TOGGLE_MS);
+tickCallbackSet(myTickHook, (void*)LEDR);
+delay(LED_TOGGLE_MS);
+```
+
+Donde la constante `LED_TOGGLE_MS` indica el tiempo en el cual se vuelve a definir una función cada vez que ocurre una interrupción. En este caso se utiliza la misma función pero se le cambian los argumentos, variando el LED que se hace parpadear cada `LED_TOGGLE_MS` milisegundos.
+
+# Ejercicio 5: UART
 
 En este ejercicio se busca configurar y controlar la comunicacion serie (`uart`) por medio de la `uart_USB`. Las funciones utilizadas para el envío de mensajes de depuración por puerto serie son `debugPrintConfigUart(…)` y `debugPrintString(…)`. Ambas pertenecen a la librería sapi_debugPrint.h, ubicada en `\firmware_v3\libs\sapi\sapi_v0.6.2\abstract_modules\inc\sapi_debugPrint.h`
 
@@ -121,5 +141,79 @@ Luego esta función llama a su vez a otra función denominada `` uartConfig(uart
 
 La función `printString` recibe entre sus parámetros un puntero al inicio de una cadena de caracteres y llama a la función `` uartWriteString( printer, string )``. Se ve que la función recibe la cadena de caracteres y la vía de comunicación e invoca a la función `` uartWriteByte`` hasta que se termine de escribir la cadena entera. La función `` uartWriteByte`` está definida en el mismo lugar y lo que hace es recibir de a un byte por vez y escribirlo.
 
+se agrega una sentencia condicional para inicializar las variables a utilizar, como se muestra a continuación:
 
+```c
+#if EJ == EJ_UART
+DEBUG_PRINT_ENABLE
+#endif
+```
+De esta forma se inicializan las variables que manipulan los mensajes por la UART, en este caso es una variable del tipo `print_t` llamada `debugPrint`.
 
+En el codigo principal del programa comienza configurando el baudrate de la UART y cual usar:
+
+```c
+debugPrintConfigUart(UART_USB, 115200);
+```
+
+Se decide utilizar la UART por USB, con un baudrate de 115200. Luego se imprime una string inicial informando la correcta configuración del puerto serie.
+
+```c
+debugPrintlnString("DEBUG: UART_USB configurada.");
+```
+
+Luego se leen los pulsadores y se prenden o apagan los respectivos LEDs de distintas formas:
+
+```c
+// Prender LEDR si presiono TEC1
+// Leer valor del pulsador 1 e invertir
+tec1Value = !gpioRead(TEC1);
+// Escribir el valor leido en el LED correspondiente.
+gpioWrite(LEDR, tec1Value);
+
+// Prender LED1 si presiono TEC2 en un solo movimiento
+gpioWrite(LED1, !gpioRead(TEC2));
+
+// Prender LED2 si se presiona TEC3
+gpioWrite(LED2, !gpioRead(TEC3));
+
+// Prender LED3 si se presiona TEC4
+gpioWrite(LED3, !gpioRead(TEC4));
+
+// Intercambio el valor del LEDB
+gpioToggle(LEDB);
+```
+
+Se imprime por puerto serie el estado del LED azul (LEDB):
+
+```c
+// Chequear valor
+if(ledbValue == ON) {
+  // Si esta encendido mostrar por UART_USB "LEDB encendido."
+  debugPrintlnString( "DEBUG: LEDB encendido." );
+} else {
+  // Si esta apagado mostrar por UART_USB "LEDB apagado."
+  debugPrintlnString( "DEBUG: LEDB apagado." );
+}
+```
+
+# Ejercicio 6: modificación del código para sensado de pulsadores
+
+En este ejercicio se desea sensar pulsadores para ir encendiendo o apagando LEDs en secuencia. Se imprimirá por puerto serie el led que se encienda o se apague. Para poder apagar o prender los LEDs de forma secuencial se escribe el siguiente código:
+
+```c
+if(i >= 6) i = 0;
+
+if(StatusTEC3 && !oldStatusTEC3) {
+// Prender siguiente LED si se presiona TEC3
+gpioWrite(LEDR+i++, !gpioRead(TEC3));
+debugPrintlnString("LED encendido");
+}
+else if(StatusTEC4 && !oldStatusTEC4) {
+// Apagar siguiente LED si se presiona TEC4
+gpioWrite(LEDR+i++, gpioRead(TEC4));
+debugPrintlnString("LED apagado");
+}
+```
+
+Donde cada vez que se prenda o apague un led, se pasa a seleccionar el siguiente sumando el iterador `i` hasta que se llegue al ultimo LEDx.
