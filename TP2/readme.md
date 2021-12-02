@@ -47,6 +47,19 @@ Este cambio de comportamiento se logro mediante código condicional en el prepro
 
 De esta forma si no se define la constante `GRUPO`, no se cambia el comportamiento de los periféricos definidos por sAPI.
 
+La implementación de este ejercicio está basada en el ejemplo `switches_led.c` que se encuentra en: `firmware_v3/examples/c/sapi/gpio/switches_leds/src/switches_leds.c/`. De este archivo se pueden obtener las funciones de librería sAPI utiles para el sensado de un pulsador y para el accionado de un led. 
+
+La función `gpioRead(gpioMap_t pin)` se encuentra en el archivo `sapi_gpio.c` en el directorio `firmware_v3/libs/sapi/sapi_v0.6.2/soc/peripherals/src/sapi_gpio.c` y se utiliza para leer un pin del GPIO que ha sido seteado como INPUT mediante la función `gpioConfig(gpioMap_t pin, gpioIinit_t config)`. Leyendo el valor de un pin que está asociado a pulsador, se puede accionar un led según si está presionado o no. 
+
+Con la función `gpioWrite(gpioMap_t pin, bool_t value)`, que se encuentra en el mismo archivo `sapi_gpio.c`, se puede cambiar el valor de un pin que ha sido seteado como OTPUT mediante la función `gpioConfig`. Si un pin está conectado a un led, se puede prender o apagar cambiando el valor de `value` (1 o 0 respectivamente). A su vez se puede utilizar el valor de la lectura del pulsador para controlar el led, como se indica a continación:
+
+```c
+valor = !gpioRead(TEC1);
+gpioWrite(LEDB, valor);
+```
+Al haber definido la constante `GRUPO` los leds y los pulsadores en la placa no van a coincidir con los nombres que se utilizan en el código.
+
+
 # Ejercicio 3/4: ticks_tickHook y constantes para manipular tiempos
 
 En este ejercicio se busca configurar y controlar rutinas de interrupción utilizando el timer por defecto de la placa. En este caso llamado `SysTick`. Para correr este ejercicio es necesario inicializar la variable `ejercicio` de la siguiente forma:
