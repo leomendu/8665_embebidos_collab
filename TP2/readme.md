@@ -49,7 +49,7 @@ De esta forma si no se define la constante `GRUPO`, no se cambia el comportamien
 
 La implementación de este ejercicio está basada en el ejemplo `switches_led.c` que se encuentra en: `firmware_v3/examples/c/sapi/gpio/switches_leds/src/switches_leds.c/`. De este archivo se pueden obtener las funciones de librería sAPI utiles para el sensado de un pulsador y para el accionado de un led. 
 
-La función `gpioRead(gpioMap_t pin)` se encuentra en el archivo `sapi_gpio.c` en el directorio `firmware_v3/libs/sapi/sapi_v0.6.2/soc/peripherals/src/sapi_gpio.c` y se utiliza para leer un pin del GPIO que ha sido seteado como INPUT mediante la función `gpioConfig(gpioMap_t pin, gpioIinit_t config)`. Leyendo el valor de un pin que está asociado a pulsador, se puede accionar un led según si está presionado o no. 
+La función `gpioRead(gpioMap_t pin)` se encuentra en el archivo `sapi_gpio.c` en el directorio `firmware_v3/libs/sapi/sapi_v0.6.2/soc/peripherals/src/sapi_gpio.c` y se utiliza para leer un pin del GPIO que ha sido seteado como INPUT mediante la función `gpioConfig(gpioMap_t pin, gpioIinit_t config)`. Leyendo el valor de un pin que está asociado a pulsador (que se obtiene como el retorno de la función `gpioRead`), se puede accionar un led según si está presionado o no. 
 
 Con la función `gpioWrite(gpioMap_t pin, bool_t value)`, que se encuentra en el mismo archivo `sapi_gpio.c`, se puede cambiar el valor de un pin que ha sido seteado como OTPUT mediante la función `gpioConfig`. Si un pin está conectado a un led, se puede prender o apagar cambiando el valor de `value` (1 o 0 respectivamente). A su vez se puede utilizar el valor de la lectura del pulsador para controlar el led, como se indica a continación:
 
@@ -81,7 +81,9 @@ Donde `TICKRATE_MS` es el valor en milisegundos que tarda en disparar una interr
 tickCallbackSet(myTickHook, (void*)LEDR);
 ```
 
-Donde `myTickHook` es la función a ser ejecutada y `(void*)LEDR` son los argumentos con los cuales se ejecuta la función. En este caso la función que se definió es un toggle de algun LED. Como se especifica a continuación:
+Donde `myTickHook` es la función a ser ejecutada y `(void*)LEDR` son los argumentos con los cuales se ejecuta la función. La función `tickCallbackSet(callBackFuncPtr_t tickCallback, void* tickCallbackParams)` se encuentra en `firmware_v3/libs/sapi/sapi_v0.6.2/soc/peripherals/src/sapi_tick.c`.
+
+En este caso la función que se definió para ser ejecutada cuando se dispara la interrupción es un toggle de algun LED, como se especifica a continuación:
 
 
 ```c
@@ -99,6 +101,7 @@ void myTickHook( void *ptr )
    gpioWrite( led, ledState );
 }
 ```
+En esta función se definió una variable `static bool_t ledState` que es la encargada de guardar el valor del pin, al ser `static` su valor no se pierde al salir de la función y se puede reutilizar en cada llamado. 
 
 Luego, en el programa principal se tienen las siguientes sentencias:
 
