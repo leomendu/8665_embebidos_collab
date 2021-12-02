@@ -33,7 +33,7 @@ Mediante el uso de compilación condicional, se puede cambiar rápidamente el fu
 
 Luego mediante un `#ifndef` se puede alterar el funcionamiento de distintas macros como las posiciones de los puertos y pines de LEDS, o pines de los pulsadores TECx.
 
-En este caso se "desplazaron" dos posiciones los LEDs definidos, y una posición los pulsadores, dentro de sapi_peripheral_map.h. Esto fue necesario en lugar de desplazar pulsadores y LEDs dos posiciones, porque al haber 4 LEDs fisicos y 4 pulsadores, el cambio en el código no reflejaba ningún cambio en el comportamiento de la placa, ya que desplazar dos posiciones a la derecha los LEDs y dos posiciones a la derecha los pulsadores TECx se obtenía el mismo comportamiento que si no se hubiese modificado nada.
+En este caso se "desplazaron" dos posiciones los LEDs definidos, y una posición los pulsadores, dentro de `sapi_peripheral_map.h`. Esto fue necesario en lugar de desplazar pulsadores y LEDs dos posiciones, porque al haber 4 LEDs fisicos y 4 pulsadores, el cambio en el código no reflejaba ningún cambio en el comportamiento de la placa, ya que desplazar dos posiciones a la derecha los LEDs y dos posiciones a la derecha los pulsadores TECx se obtenía el mismo comportamiento que si no se hubiese modificado nada.
 
 Este cambio de comportamiento se logro mediante código condicional en el preprocesador:
 
