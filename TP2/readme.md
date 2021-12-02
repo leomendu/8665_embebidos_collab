@@ -33,16 +33,66 @@ Mediante el uso de compilación condicional, se puede cambiar rápidamente el fu
 
 Luego mediante un `#ifndef` se puede alterar el funcionamiento de distintas macros como las posiciones de los puertos y pines de LEDS, o pines de los pulsadores TECx.
 
-En este caso se "desplazaron" dos posiciones los LEDs definidos, y una posición los pulsadores, dentro de `sapi_peripheral_map.h`. Esto fue necesario en lugar de desplazar pulsadores y LEDs dos posiciones, porque al haber 4 LEDs fisicos y 4 pulsadores, el cambio en el código no reflejaba ningún cambio en el comportamiento de la placa, ya que desplazar dos posiciones a la derecha los LEDs y dos posiciones a la derecha los pulsadores TECx se obtenía el mismo comportamiento que si no se hubiese modificado nada.
+En este caso se "desplazaron" dos posiciones los LEDs definidos, y una posición los pulsadores, dentro de `sapi_peripheral_map.h`, el cual se encuentra dentro de `firmware_v3/libs/sapi/sapi_v0.6.2/board/inc/`. Esto fue necesario en lugar de desplazar pulsadores y LEDs dos posiciones, porque al haber 4 LEDs fisicos y 4 pulsadores, el cambio en el código no reflejaba ningún cambio en el comportamiento de la placa, ya que desplazar dos posiciones a la derecha los LEDs y dos posiciones a la derecha los pulsadores TECx se obtenía el mismo comportamiento que si no se hubiese modificado nada.
 
-Este cambio de comportamiento se logro mediante código condicional en el preprocesador:
+Este cambio de comportamiento se logro mediante código condicional en el preprocesador, dentro de la definición del tipo enumerativo `gpioMap_t` el cual mapea los pines del GPIO a los nombres utilizados en el código para referenciarlos:
 
 ```c
-#ifndef GRUPO
-  ... realizar lo de siempre ...
-#elif (GRUPO == 2)
-  ... cambiar orden de pulsadores y LEDs ...
-#endif
+typedef enum {
+
+   // Configure GPIO pins for each board
+
+   #if (BOARD == ciaa_nxp)
+      DOUT0_C = -3, DOUT1_C = -3, DOUT2_C = -3, DOUT3_C = -3, DIN_COM = -3,
+      VCC = -2, VIN_24V = -2, VOUT_24V = -2,
+      GND = -1, GNDA0 = -1, GNDA1 = -1, GND0 = -1, GND1 = -1, GND2 = -1, GND3 = -1, 
+      // Born digital inputs
+      I0   = 0, I1   = 1, I2   = 2, I3   = 3, I4   = 4, I5   = 5, I6   = 6, I7   = 7,
+      DI0  = 0, DI1  = 1, DI2  = 2, DI3  = 3, DI4  = 4, DI5  = 5, DI6  = 6, DI7  = 7,
+      DIN0 = 0, DIN1 = 1, DIN2 = 2, DIN3 = 3, DIN4 = 4, DIN5 = 5, DIN6 = 6, DIN7 = 7,
+      // Born digital outputs
+      Q0    = 8, Q1    = 9, Q2    = 10, Q3    = 11, Q4    = 12, Q5    = 13, Q6    = 14, Q7    = 15,
+      DO0   = 8, DO1   = 9, DO2   = 10, DO3   = 11, DO4   = 12, DO5   = 13, DO6   = 14, DO7   = 15,
+      DOUT0 = 8, DOUT1 = 9, DOUT2 = 10, DOUT3 = 11, DOUT4 = 12, DOUT5 = 13, DOUT6 = 14, DOUT7 = 15,
+      // P12 header
+      GPIO0 = 16, GPIO1 = 17, GPIO2 = 18, GPIO3 = 19, GPIO7 = 20, GPIO8 = 21, 
+      // P14 header
+      SPI_MISO = 22, SPI_MOSI = 23, SPI_CS = 23,
+      //#error CIAA-NXP
+   #elif (BOARD == edu_ciaa_nxp)
+      VCC = -2, GND = -1,
+      // P1 header
+      T_FIL1,    T_COL2,    T_COL0,    T_FIL2,      T_FIL3,  T_FIL0,     T_COL1,
+      CAN_TD,    CAN_RD,    RS232_TXD, RS232_RXD,
+      // P2 header
+      GPIO8,     GPIO7,     GPIO5,     GPIO3,       GPIO1,
+      LCD1,      LCD2,      LCD3,      LCDRS,       LCD4,
+      SPI_MISO,
+      ENET_TXD1, ENET_TXD0, ENET_MDIO, ENET_CRS_DV, ENET_MDC, ENET_TXEN, ENET_RXD1,
+      GPIO6,     GPIO4,     GPIO2,     GPIO0,
+      LCDEN,
+      SPI_MOSI,
+      ENET_RXD0,
+	  #ifndef GRUPO
+      // Switches
+      // 36   37     38     39
+	    TEC1,  TEC2,  TEC3,  TEC4,
+      // Leds
+      // 40   41     42     43     44     45
+        LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
+	  #elif (GRUPO == 2)
+      // Switches
+      // 36   37     38     39
+	TEC3,  TEC4, TEC1,  TEC2,
+      // Leds
+      // 40   41     42     43     44     45
+	 LEDR,  LEDG,  LED1, LED2,  LED3,  LEDB,
+	  #endif
+	  //#error EDU-CIAA-NXP
+   #else
+      #error BOARD not supported yet!
+   #endif
+} gpioMap_t;
 ```
 
 De esta forma si no se define la constante `GRUPO`, no se cambia el comportamiento de los periféricos definidos por sAPI.
@@ -54,10 +104,26 @@ La función `gpioRead(gpioMap_t pin)` se encuentra en el archivo `sapi_gpio.c` e
 Con la función `gpioWrite(gpioMap_t pin, bool_t value)`, que se encuentra en el mismo archivo `sapi_gpio.c`, se puede cambiar el valor de un pin que ha sido seteado como OTPUT mediante la función `gpioConfig`. Si un pin está conectado a un led, se puede prender o apagar cambiando el valor de `value` (1 o 0 respectivamente). A su vez se puede utilizar el valor de la lectura del pulsador para controlar el led, como se indica a continación:
 
 ```c
-valor = !gpioRead(TEC1);
-gpioWrite(LEDB, valor);
+while(1) {
+
+      valor = !gpioRead( TEC1 );
+      gpioWrite( LEDB, valor );
+
+      valor = !gpioRead( TEC2 );
+      gpioWrite( LED1, valor );
+
+      valor = !gpioRead( TEC3 );
+      gpioWrite( LED2, valor );
+
+      valor = !gpioRead( TEC4 );
+      gpioWrite( LED3, valor );
+
+      valor = !gpioRead( GPIO0 );
+      gpioWrite( GPIO1, valor );
+
+   }
 ```
-Al haber definido la constante `GRUPO` los leds y los pulsadores en la placa no van a coincidir con los nombres que se utilizan en el código.
+Al haber definido la constante `GRUPO` los leds y los pulsadores en la placa no van a coincidir con los nombres que se utilizan en el código, con lo cual, por ejemplo, al presionar la tecla TEC1, que en la placa es el pulsador numero 3, se encenderá el LEDB, que no es el led azul del RGB, sino, el led número 4.
 
 
 # Ejercicio 3/4: ticks_tickHook y constantes para manipular tiempos
