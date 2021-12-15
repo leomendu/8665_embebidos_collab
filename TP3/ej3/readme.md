@@ -103,4 +103,4 @@ void PULSADOR_TO_SERIAL(void){
  }
 ```
 
-De esta forma se combiaron ambas funcionalidades en el mismo programa, sin que una intervenga con la otra. 
+De esta forma se combiaron ambas funcionalidades en el mismo programa, evitando que una intervenga en la fucionalidad de la otra.
