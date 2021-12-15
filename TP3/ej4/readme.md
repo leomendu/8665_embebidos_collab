@@ -14,20 +14,20 @@ Se armó un programa principal que ejecuta un PWM personalizado, codificado por 
 Inicializaciones: placa, uart, función handler de interrupciones por uart, interrupciones por uart habilitadas, mensaje inicial.
 
 ```c
-  // Inicializar la placa
-	boardConfig();
+// Inicializar la placa
+boardConfig();
 
-	// Inicializar UART_USB a 115200 baudios
-	uartConfig( UART_USB, 115200 );
+// Inicializar UART_USB a 115200 baudios
+uartConfig( UART_USB, 115200 );
 
-	// Inicializo el callback
-	uartCallbackSet(UART_USB, UART_RECEIVE, onRx, NULL);
+// Inicializo el callback
+uartCallbackSet(UART_USB, UART_RECEIVE, onRx, NULL);
 
-	// Habilito todas las interrupciones de UART_USB
-	uartInterrupt(UART_USB, true);
+// Habilito todas las interrupciones de UART_USB
+uartInterrupt(UART_USB, true);
 
-	// Imprimo como se usa el programa
-	uartWriteString(UART_USB, "Configuración realizada. Con \"d\" se aumenta el brillo, con \"a\" se disminuye.\n");
+// Imprimo como se usa el programa
+uartWriteString(UART_USB, "Configuración realizada. Con \"d\" se aumenta el brillo, con \"a\" se disminuye.\n");
 ```
 
 Se puede ver que se inicializa la UART USB, a 115200 baudios, con una función handler de interrupciones llamada `onRx`. Esta función se ejecutará cada vez que se tenga un dato en el buffer de Rx de la UART, como lo indica la inicialización de interrupciones `... UART_RECIEVE, onRx ...`
