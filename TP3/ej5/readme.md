@@ -30,4 +30,4 @@ Se realizaron diferentes configuraciones de conexiones para verificar el correct
   <li> Conexión de un resistor de 2k entre 3.3 V (3V3) y el pin CH1. Al haber corriente nula la tensión en CH1 es 3.3 V lo cual se convierte en el valor 1023 al pasar por el ADC. </li>
   <li> Conexión de un resistor de 2k entre GND y el pin CH1. En este caso como la tensión en CH1 es 0 V, se convierte al valor 0 al pasar por el ADC. </li>
   <li> Conexión de un resistor de 2k entre 3v3 y CH1, y otro resistor del mismo valor entre CH1 y GND. En este caso la tensión en CH1 es de aproximadamente 3.3/2 V y el valor leído convertido por el ADC es de aproximadamente 1024/2. 
-<\tr>
+</tr>
