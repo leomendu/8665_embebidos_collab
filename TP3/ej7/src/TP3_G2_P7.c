@@ -1,8 +1,8 @@
 
  #include "sapi.h"       // <= sAPI header
 // Definiciones y variables
-int ESTADO = 0;                                    //Variable de estado control (Maquina de Estados)
-int ESTADO2 = 0;                                    //Variable de estado control (Maquina de Estados)
+static int ESTADO = 0;                                    //Variable de estado control (Maquina de Estados)
+static int ESTADO2 = 0;                                    //Variable de estado control (Maquina de Estados)
 bool_t valor;                             // Variable para almacenar el valor de tecla leido
 uint8_t dato  = 0;
 
