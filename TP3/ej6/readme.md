@@ -30,4 +30,4 @@ void DAC_SERIAL_LEVEL(void){
 ```
 En la terminal se espera recibir un valor entre 0 y 9, los cuales se corresponden con 0 V y 3.3 V respectivamente, o 0 y 1023 en términos digitales. Haciendo esta conversión, tal como se detalla en la función `DAC_SERIAL_LEVEL()` se utiliza la variable global `val` para setear el valor del pin DAC mediante la función `dacWrite`.
 
-Para poder verificar el funcionamiento del conversor DA, se conectaron los pines DAC y CH1 con un resistor de 2k, ya que mediante CH1 se puede leer el valor seteado en el pin DAC, reutilizando el programa implementado en el ejercicio 5. 
+Para poder verificar el funcionamiento del conversor DA, se conectaron los pines DAC y CH1 con un resistor de 2k2, ya que mediante CH1 se puede leer el valor seteado en el pin DAC, reutilizando el programa implementado en el ejercicio 5. 
